@@ -1,0 +1,51 @@
+<form (ngSubmit)="verVideoInformacion()" autocomplete="off" class="grid p-fluid mt-5 mx-auto">
+    <div class="field col-12 md:col-3">
+        <label for="basic" class="text-layout">Terid</label>
+        <input type="text" name="terid" pInputText [(ngModel)]="formDispositivos.terid" />
+    </div>
+    <div class="field col-12 md:col-3">
+        <label for="dateformat" class="text-layout">Canal</label>
+        <p-dropdown [options]="canales" name="canal" [(ngModel)]="formDispositivos.canal"></p-dropdown>
+    </div>
+    <div class="field col-12 md:col-3">
+        <label for="dateformat" class="text-layout">Fecha Inicio</label>
+        <p-calendar [(ngModel)]="formDispositivos.fechaInicio" name="fecha-inicio" [showTime]="true" hourFormat="24">
+        </p-calendar>
+    </div>
+    <div class="field col-12 md:col-3">
+        <label for="dateformat" class="text-layout">Fecha Fin</label>
+        <p-calendar [(ngModel)]="formDispositivos.fechaFin" name="fecha-fin" [showTime]="true" hourFormat="24">
+        </p-calendar>
+    </div>
+    <div class="field col-12 ">
+        <button type="submit" pButton label="Ver Informacion"></button>
+    </div>
+</form>
+
+<h1 class="text-layout">Horas Grabadas: {{horas | number }}</h1>
+
+<p-card>
+    <p-table [value]="videosInformacion.data" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+        [globalFilterFields]="['name','filetype','chn','starttime', 'endtime']" styleClass="p-datatable-gridlines"
+        [paginator]="true" currentPageReportTemplate="mostrando {first} a {last} de {totalRecords} valores">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo de archivo</th>
+                <th>Canal</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-video>
+            <tr>
+                <td>{{video.name}}</td>
+                <td>{{video.filetype}}</td>
+                <td>{{video.chn}}</td>
+                <td>{{video.starttime}}</td>
+                <td>{{video.endtime}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>

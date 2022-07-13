@@ -45,6 +45,7 @@ export class GetVideoFileComponent {
       this.loading = false;
       this.horas = 0
       let diff = 0
+      const { errorcode } = videos
       const result = videos.data.map((item) => {
         const fecha1 = moment(item.starttime, "YYYY-MM-DD HH:mm:ss");
         const fecha2 = moment(item.endtime, "YYYY-MM-DD HH:mm:ss")
@@ -52,12 +53,11 @@ export class GetVideoFileComponent {
         this.horas += diff
 
         return {
-          item,
+          ...item,
           minutos: diff
         }
       })
-      console.log(videos)
-      this.videosInformacion = videos
+      this.videosInformacion = {data: result, errorcode}
       this.horas = this.horas / 60
       
     })

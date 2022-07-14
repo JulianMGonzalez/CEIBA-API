@@ -15,10 +15,8 @@ export class GetVideoFileComponent {
 
   loading: boolean = false;
   horas: number = 0
+  horasPorCanal: any = {}
 
-  terid: string = '0098000227'
-
-  canal: string = '1,2,3,4'
   canales: string[] = ['todos', '1', '2', '3', '4']
 
   fechaAuto = moment(new Date)
@@ -29,7 +27,6 @@ export class GetVideoFileComponent {
     fechaInicio: this.fechaAuto.format('YYYY-MM-DD HH:mm:ss'),
     fechaFin: this.fechaAuto.format('YYYY-MM-DD HH:mm:ss'),
   }
-
 
   videosInformacion: VideoInformation = {
     data:[],
@@ -43,23 +40,9 @@ export class GetVideoFileComponent {
     this.crudService.GetHistoryVideoFileInformation(this.formDispositivos)
     .subscribe((videos) => {
       this.loading = false;
-      this.horas = 0
-      let diff = 0
-      const { errorcode } = videos
-      const result = videos.data.map((item) => {
-        const fecha1 = moment(item.starttime, "YYYY-MM-DD HH:mm:ss");
-        const fecha2 = moment(item.endtime, "YYYY-MM-DD HH:mm:ss")
-        diff = fecha2.diff(fecha1, 'minutes'); 
-        this.horas += diff
-
-        return {
-          ...item,
-          minutos: diff
-        }
-      })
-      this.videosInformacion = {data: result, errorcode}
-      this.horas = this.horas / 60
-      
+      this.videosInformacion = videos
+      this.horas = this.crudService.getHorasTotal
+      this.horasPorCanal = this.crudService.getHorasPorCanal
     })
   }
 

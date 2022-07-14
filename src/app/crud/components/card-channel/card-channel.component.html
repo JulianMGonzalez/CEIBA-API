@@ -1,0 +1,5 @@
+<div class="flex justify-content-evenly flex-wrap">
+    <p-card *ngFor="let canal of horasPorCanal | keyvalue"  styleClass="p-card-shadow my-5" [header]="'Canal ' + canal.key">
+        <p class="flex align-items-center justify-content-center">Horas: {{ canal.value | number}}</p>
+    </p-card>
+</div>

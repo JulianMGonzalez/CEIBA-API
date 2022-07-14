@@ -24,6 +24,8 @@
 
 <h1 class="text-layout">Horas Grabadas: {{horas | number }}</h1>
 
+<app-card-channel [horasPorCanal]="horasPorCanal"></app-card-channel>
+
 <p-card>
     <p-table [value]="videosInformacion.data" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
         [rowsPerPageOptions]="[10,25,50]" [loading]="loading"

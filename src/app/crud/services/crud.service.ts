@@ -17,6 +17,7 @@ export class CrudService {
 
   private _horas: number = 0
   private _horasPorCanal: any = {}
+  private _canales: string[]  = []
 
   public resultadosVideos: any = null
 
@@ -28,6 +29,10 @@ export class CrudService {
 
   get getHorasPorCanal() {
     return this._horasPorCanal
+  }
+
+  get getCanales(){
+    return this._canales
   }
 
   // terid:string, st:string, starttime:Date
@@ -70,18 +75,18 @@ export class CrudService {
       .pipe(
         map(videos => {
           const { errorcode, data } = videos
+          
           const result = data.map((item, i) => {
             const fecha1 = moment(item.starttime, "YYYY-MM-DD HH:mm:ss");
             const fecha2 = moment(item.endtime, "YYYY-MM-DD HH:mm:ss")
             let diff = fecha2.diff(fecha1, 'minutes');
             this._horas += diff
 
-
             if (!this._horasPorCanal.hasOwnProperty(item.chn)) {
               this._horasPorCanal[item.chn] = 0
+              this._canales.push(item.chn.toString())
             }
             for(let i in this._horasPorCanal) {
-              console.log(item.chn, i)
               if(item.chn == parseInt(i)){
                 this._horasPorCanal[item.chn] += diff
               }else{
@@ -99,7 +104,6 @@ export class CrudService {
               this._horasPorCanal[key] = element / 60
             }
           }
-          console.log(this._horasPorCanal)
           this._horas = this._horas / 60
           return { data: result, errorcode }
         })

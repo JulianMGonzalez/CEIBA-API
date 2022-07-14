@@ -43,6 +43,8 @@ export class GetVideoFileComponent {
       this.videosInformacion = videos
       this.horas = this.crudService.getHorasTotal
       this.horasPorCanal = this.crudService.getHorasPorCanal
+      this.canales = this.crudService.getCanales
+      this.canales.push('todos')
     })
   }
 

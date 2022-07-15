@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormData } from '../interfaces/form.interfaces';
+import { FormData, FormDataMonthly } from '../interfaces/form.interfaces';
 import { VideoInformation } from '../interfaces/historyVideoFileInformation';
 import { GetVideo } from '../interfaces/historyVideoMonthly.interface';
 
@@ -36,15 +36,18 @@ export class CrudService {
   }
 
   // terid:string, st:string, starttime:Date
-  GetHistoryVideoMonthlyCalendarInformation() {
-    // const url = `${this._apiUrl}/basic/record/calendar/?key=${this._apiKey}&terid=${terid}&starttime=${starttime}&st=${st}`
+  GetHistoryVideoMonthlyCalendarInformation(data: FormDataMonthly) {
     const url = `${this._apiUrl}/basic/record/calendar`
+
+    const { terid, fechaInicio } = data
+
+    const fechaInicioTemp = moment(new Date(fechaInicio)).format("YYYY-MM-DD");
 
     const params = new HttpParams()
       .set('key', this._apiKey)
-      .set('terid', '0098000227')
-      .set('starttime', '2022-07-010')
-      .set('st', '1,2,3,4');
+      .set('terid', terid)
+      .set('starttime', fechaInicioTemp)
+      .set('st', '1');
 
     return this.http.get<GetVideo>(url, { params });
   }
@@ -58,7 +61,7 @@ export class CrudService {
     const fechaFinTemp = moment(new Date(fechaFin)).format("YYYY-MM-DD HH:mm:ss");
 
     if (data.canal === 'todos') {
-      data.canal = '1,2,3,4,5,6,7,8,9'
+      data.canal = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16'
     }
 
     /* 00980000FF | '1,2,3,4'*/
@@ -75,7 +78,8 @@ export class CrudService {
       .pipe(
         map(videos => {
           const { errorcode, data } = videos
-          
+          this._horasPorCanal = {}
+          this._canales = []
           const result = data.map((item, i) => {
             const fecha1 = moment(item.starttime, "YYYY-MM-DD HH:mm:ss");
             const fecha2 = moment(item.endtime, "YYYY-MM-DD HH:mm:ss")

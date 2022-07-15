@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { VideoInformation } from '../../interfaces/historyVideoFileInformation';
 import { CrudService } from '../../services/crud.service';
-import * as moment from 'moment';
 import { FormData } from '../../interfaces/form.interfaces';
 
 @Component({
@@ -17,15 +16,15 @@ export class GetVideoFileComponent {
   horas: number = 0
   horasPorCanal: any = {}
 
-  canales: string[] = ['todos', '1', '2', '3', '4']
+  canales: string[] = ['todos']
 
-  fechaAuto = moment(new Date)
+  fechaAuto = new Date
 
   formDispositivos: FormData = {
     terid: '',
     canal: '',
-    fechaInicio: this.fechaAuto.format('YYYY-MM-DD HH:mm:ss'),
-    fechaFin: this.fechaAuto.format('YYYY-MM-DD HH:mm:ss'),
+    fechaInicio: this.fechaAuto.toDateString(),
+    fechaFin: this.fechaAuto.toDateString(),
   }
 
   videosInformacion: VideoInformation = {
@@ -44,7 +43,9 @@ export class GetVideoFileComponent {
       this.horas = this.crudService.getHorasTotal
       this.horasPorCanal = this.crudService.getHorasPorCanal
       this.canales = this.crudService.getCanales
-      this.canales.push('todos')
+      if(!this.canales.includes('todos')){
+        this.canales.push('todos')
+      }
     })
   }
 

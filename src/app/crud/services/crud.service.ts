@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormData } from '../interfaces/form.interfaces';
 import { VideoInformation } from '../interfaces/historyVideoFileInformation';
 import { GetVideo } from '../interfaces/historyVideoMonthly.interface';
+import { Data } from '../interfaces/BDhistoryVideoFileInformation';
 
 import * as moment from 'moment';
 
@@ -13,6 +14,7 @@ export class CrudService {
 
   private _apiUrl: string = 'http://67.231.248.74:12056/api/v1'
   private _apiKey : string = localStorage.getItem('apiKey') || 'zT908g2j9nhN588DYZDrFmmN3P7FllzEyQyWdGv35YGVaFbYwCpg9g%3D%3D'
+  private _BDUrl: string = 'http://localhost:3000'
 
   public resultadosVideos: any = null
 
@@ -57,7 +59,11 @@ export class CrudService {
     return this.http.get<VideoInformation>(url, {params})
   }
   
-
-
+  SendDataToBD(data: Data){
+    const url = `${this._BDUrl}/recording`
+    console.log("url", url);
+    console.log("data a enviar",data);
+    return this.http.post<any>(url, data)
+  }
 
 }

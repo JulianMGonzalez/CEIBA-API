@@ -49,14 +49,17 @@ export class GetVideoFileComponent {
       const result = videos.data.map((item) => {
         const fecha1 = moment(item.starttime, "YYYY-MM-DD HH:mm:ss");
         const fecha2 = moment(item.endtime, "YYYY-MM-DD HH:mm:ss")
+        const teridAux = this.formDispositivos.terid;
+        console.log("TERIDDD", teridAux);
         diff = fecha2.diff(fecha1, 'minutes'); 
         this.horas += diff
         const minutos = {
           minutos: diff
         };
-        const finalResult = Object.assign(item,minutos);
-        console.log("data con minutos", finalResult);
-        console.log("data sin minuto", item);
+        const terid = {
+          terid: teridAux
+        };
+        const finalResult = Object.assign(item,minutos,terid);
         this.crudService.SendDataToBD(finalResult).subscribe(data => {console.log("data", data);}, err => {console.log("error", err)});
         return {
           ...item,

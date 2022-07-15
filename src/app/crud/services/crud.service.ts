@@ -61,8 +61,6 @@ export class CrudService {
   
   SendDataToBD(data: Data){
     const url = `${this._BDUrl}/recording`
-    console.log("url", url);
-    console.log("data a enviar",data);
     return this.http.post<any>(url, data)
   }
 

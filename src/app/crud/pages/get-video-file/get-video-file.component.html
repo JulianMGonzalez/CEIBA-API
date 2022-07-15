@@ -22,7 +22,9 @@
     </div>
 </form>
 
-<h1 class="text-layout">Horas Grabadas: {{horas | number }}</h1>
+<h1 class="text-layout">Horas Grabadas: {{horas | number: '1.0-1'}}</h1>
+
+<app-card-channel [horasPorCanal]="horasPorCanal"></app-card-channel>
 
 <p-card>
     <p-table [value]="videosInformacion.data" dataKey="id" [rows]="10" [showCurrentPageReport]="true"

@@ -6,6 +6,8 @@ import { GetVideoFileComponent } from './pages/get-video-file/get-video-file.com
 import { GetVideoMonthlyComponent } from './pages/get-video-monthly/get-video-monthly.component';
 import { TableComponent } from './components/table/table.component';
 import { FormsModule } from '@angular/forms';
+import { CardChannelComponent } from './components/card-channel/card-channel.component';
+import { FormComponent } from './components/form/form.component';
 
 
 
@@ -14,7 +16,9 @@ import { FormsModule } from '@angular/forms';
     GetHistorialVideoComponent,
     GetVideoFileComponent,
     GetVideoMonthlyComponent,
-    TableComponent
+    TableComponent,
+    CardChannelComponent,
+    FormComponent
   ],
   imports: [
     CommonModule,

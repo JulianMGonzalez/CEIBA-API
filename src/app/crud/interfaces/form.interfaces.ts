@@ -4,3 +4,8 @@ export interface FormData {
     fechaInicio: string;
     fechaFin: string,
 }
+
+export interface FormDataMonthly {
+    terid: string;
+    fechaInicio: string;
+}

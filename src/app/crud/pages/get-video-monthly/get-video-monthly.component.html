@@ -1,4 +1,17 @@
-<button pButton (click)="verInformacionMensual()" label="Ver Informacion"></button>
+<form (ngSubmit)="verInformacionMensual()" autocomplete="off" class="grid p-fluid mt-5 mx-auto">
+    <div class="field col-12 md:col-3">
+        <label for="basic" class="text-layout">Terid</label>
+        <input type="text" name="terid" pInputText [(ngModel)]="formDispositivos.terid" />
+    </div>
+    <div class="field col-12 md:col-3">
+        <label for="dateformat" class="text-layout">Fecha Inicio</label>
+        <p-calendar [(ngModel)]="formDispositivos.fechaInicio" name="fecha-inicio">
+        </p-calendar>
+    </div>
+    <div class="field col-12 ">
+        <button type="submit" pButton label="Ver Informacion"></button>
+    </div>
+</form>
 
 <p-table [value]="videos.data">
     <ng-template pTemplate="header">

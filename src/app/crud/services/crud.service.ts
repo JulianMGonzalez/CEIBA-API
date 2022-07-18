@@ -7,6 +7,7 @@ import { Data } from '../interfaces/BDhistoryVideoFileInformation';
 
 import * as moment from 'moment';
 import { map } from 'rxjs';
+import { VideoHistorical } from '../interfaces/historicalVideo';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,7 @@ export class CrudService {
   GetHistoryVideoFileInformation(data: FormData) {
     const url = `${this._apiUrl}/basic/record/filelist`
 
-    const { fechaInicio, fechaFin } = data
+    const { fechaInicio, fechaFin, terid } = data
 
     const fechaInicioTemp = moment(new Date(fechaInicio)).format("YYYY-MM-DD HH:mm:ss");
     const fechaFinTemp = moment(new Date(fechaFin)).format("YYYY-MM-DD HH:mm:ss");
@@ -69,7 +70,7 @@ export class CrudService {
     /* 00980000FF | '1,2,3,4'*/
     const params = new HttpParams()
       .set('key', this._apiKey)
-      .set('terid', data.terid)
+      .set('terid', terid)
       .set('starttime', fechaInicioTemp)
       .set('endtime', fechaFinTemp)
       .set('chl', data.canal)
@@ -99,13 +100,15 @@ export class CrudService {
                 this._horasPorCanal[item.chn] += 0
               }
             }
+            this.SendDataToBD({...item, minutos: diff, terid: terid})
+            .subscribe(data => { console.log("data", data); }, err => { console.log("error", err) })
             return {
               ...item,
-              minutos: diff
+              minutos: diff,
+              terid
             }
           })
-          this.SendDataToBD(Object.assign(result))
-            .subscribe(data => { console.log("data", data); }, err => { console.log("error", err) })
+          
           for (const key in this._horasPorCanal) {
             if (Object.prototype.hasOwnProperty.call(this._horasPorCanal, key)) {
               const element = this._horasPorCanal[key];
@@ -118,11 +121,28 @@ export class CrudService {
       )
   }
 
-  SendDataToBD(data: Data) {
+  SendDataToBD(data: any) {
     const url = `${this._BDUrl}/recording`
     console.log("url", url);
     console.log("data a enviar", data);
     return this.http.post<any>(url, data)
-  }
 
+  }
+  GetHistoricalVideoStreamInformation(data: FormData) {
+    const url = `${this._apiUrl}/basic/record/video`
+
+    const { terid, fechaInicio, fechaFin, canal } = data
+
+    const fechaInicioTemp = moment(new Date(fechaInicio)).format("YYYY-MM-DD HH:mm:ss");
+    const fechaFinTemp = moment(new Date(fechaFin)).format("YYYY-MM-DD HH:mm:ss");
+
+    const params = new HttpParams()
+      .set('key', this._apiKey)
+      .set('terid', terid)
+      .set('starttime', fechaInicioTemp)
+      .set('endtime', fechaFinTemp)
+      .set('chl', canal);
+
+    return this.http.get<VideoHistorical>(url, { params });
+  }
 }

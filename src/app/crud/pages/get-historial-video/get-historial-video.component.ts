@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormDataMonthly } from '../../interfaces/form.interfaces';
+import { FormData } from '../../interfaces/form.interfaces';
+import { VideoHistorical } from '../../interfaces/historicalVideo';
 import { GetVideo } from '../../interfaces/historyVideoMonthly.interface';
 import { CrudService } from '../../services/crud.service';
 
@@ -9,23 +10,26 @@ import { CrudService } from '../../services/crud.service';
 })
 export class GetHistorialVideoComponent {
 
-  videos : GetVideo = {
-    data:[],
-    errorcode: 0
-  }
+  videoUrl: string = ''
 
-  formDispositivos: FormDataMonthly = {
+  canales: string[] = ['todos']
+
+  fechaAuto = new Date()
+
+  formDispositivos: FormData = {
     terid: '',
-    fechaInicio: '',
+    canal: '',
+    fechaInicio: this.fechaAuto.toDateString(),
+    fechaFin: this.fechaAuto.toDateString(),
   }
 
   constructor(private crudService: CrudService) { }
 
-  verInformacionMensual(){
-    this.crudService.GetHistoryVideoMonthlyCalendarInformation(this.formDispositivos)
-    .subscribe(videos => {
-      this.videos = videos
-    })
+  verVideoInformacion() {
+    this.crudService.GetHistoricalVideoStreamInformation(this.formDispositivos)
+      .subscribe(({data:{url}}) => {
+        this.videoUrl = url 
+      })
   }
 
 }

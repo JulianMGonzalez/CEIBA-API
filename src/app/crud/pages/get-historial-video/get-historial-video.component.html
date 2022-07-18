@@ -1,30 +1,27 @@
-<form (ngSubmit)="verInformacionMensual()" autocomplete="off" class="grid p-fluid mt-5 mx-auto">
-    <div class="field col-12 md:col-3">
-        <label for="basic" class="text-layout">Terid</label>
-        <input type="text" name="terid" pInputText [(ngModel)]="formDispositivos.terid" />
-    </div>
-    <div class="field col-12 md:col-3">
-        <label for="dateformat" class="text-layout">Fecha Inicio</label>
-        <p-calendar [(ngModel)]="formDispositivos.fechaInicio" name="fecha-inicio" [showTime]="true" hourFormat="24">
-        </p-calendar>
-    </div>
-    <div class="field col-12 ">
-        <button type="submit" pButton label="Ver Informacion"></button>
-    </div>
+<form (ngSubmit)="verVideoInformacion()" autocomplete="off" class="grid p-fluid mt-5 mx-auto">
+<div class="field col-12 md:col-3">
+    <label for="basic" class="text-layout">Terid</label>
+    <input type="text" name="terid" pInputText [(ngModel)]="formDispositivos.terid" />
+</div>
+<div class="field col-12 md:col-3">
+    <label for="dateformat" class="text-layout">Canal</label>
+    <p-dropdown [options]="canales" name="canal" [(ngModel)]="formDispositivos.canal"></p-dropdown>
+</div>
+<div class="field col-12 md:col-3">
+    <label for="dateformat" class="text-layout">Fecha Inicio</label>
+    <p-calendar [(ngModel)]="formDispositivos.fechaInicio" name="fecha-inicio" [showTime]="true" hourFormat="24">
+    </p-calendar>
+</div>
+<div class="field col-12 md:col-3">
+    <label for="dateformat" class="text-layout">Fecha Fin</label>
+    <p-calendar [(ngModel)]="formDispositivos.fechaFin" name="fecha-fin" [showTime]="true" hourFormat="24">
+    </p-calendar>
+</div>
+<div class="field col-12 ">
+    <button type="submit" pButton label="Ver Informacion"></button>
+</div>
 </form>
-<button pButton (click)="verInformacionMensual()" label="Ver Informacion"></button>
 
-<p-table [value]="videos.data">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Fecha</th>
-            <th>Tipo de archivo</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-video>
-        <tr>
-            <td>{{video.date}}</td>
-            <td>{{video.filetype}}</td>
-        </tr>
-    </ng-template>
-</p-table>
+<p-card styleClass="p-card-shadow my-5" header="Video">
+    <p class="flex align-items-center justify-content-center">{{videoUrl}}</p>
+</p-card>

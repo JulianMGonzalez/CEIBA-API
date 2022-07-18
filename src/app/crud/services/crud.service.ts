@@ -6,6 +6,7 @@ import { GetVideo } from '../interfaces/historyVideoMonthly.interface';
 
 import * as moment from 'moment';
 import { map } from 'rxjs';
+import { VideoHistorical } from '../interfaces/historicalVideo';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class CrudService {
 
   private _horas: number = 0
   private _horasPorCanal: any = {}
-  private _canales: string[]  = []
+  private _canales: string[] = []
 
   public resultadosVideos: any = null
 
@@ -31,7 +32,7 @@ export class CrudService {
     return this._horasPorCanal
   }
 
-  get getCanales(){
+  get getCanales() {
     return this._canales
   }
 
@@ -90,10 +91,10 @@ export class CrudService {
               this._horasPorCanal[item.chn] = 0
               this._canales.push(item.chn.toString())
             }
-            for(let i in this._horasPorCanal) {
-              if(item.chn == parseInt(i)){
+            for (let i in this._horasPorCanal) {
+              if (item.chn == parseInt(i)) {
                 this._horasPorCanal[item.chn] += diff
-              }else{
+              } else {
                 this._horasPorCanal[item.chn] += 0
               }
             }
@@ -112,6 +113,24 @@ export class CrudService {
           return { data: result, errorcode }
         })
       )
+  }
+
+  GetHistoricalVideoStreamInformation(data: FormData) {
+    const url = `${this._apiUrl}/basic/record/video`
+
+    const { terid, fechaInicio, fechaFin, canal } = data
+
+    const fechaInicioTemp = moment(new Date(fechaInicio)).format("YYYY-MM-DD HH:mm:ss");
+    const fechaFinTemp = moment(new Date(fechaFin)).format("YYYY-MM-DD HH:mm:ss");
+
+    const params = new HttpParams()
+      .set('key', this._apiKey)
+      .set('terid', terid)
+      .set('starttime', fechaInicioTemp)
+      .set('endtime', fechaFinTemp)
+      .set('chl', canal);
+
+    return this.http.get<VideoHistorical>(url, { params });
   }
 
 }
